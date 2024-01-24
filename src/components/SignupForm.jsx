@@ -12,6 +12,8 @@ const SignupForm = ({ setIsLoggedIn }) => {
     confirmPassword: "",
   });
 
+  const [accountType, setAccountType] = useState("student");
+
   const [showCreatePassword, setShowCreatePassword] = useState(false);
 
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -26,7 +28,7 @@ const SignupForm = ({ setIsLoggedIn }) => {
     e.preventDefault();
     setIsLoggedIn(true);
     toast.success("Account created Successfully");
-    const finalData = { ...formData}
+    const finalData = { ...formData, accountType };
     console.log(finalData);
     navigate("/");
   };
@@ -38,11 +40,25 @@ const SignupForm = ({ setIsLoggedIn }) => {
         onSubmit={submitHandler}>
         {/* STUDENT AND INSTRUCTOR SECTION */}
         <div className="rounded-full flex gap-2 p-1 text-base bg-slate-900">
-          <button className="rounded-full bg-slate-950 py-2 px-6" type="button">
+          <button
+            className={`rounded-full py-2 px-6 ${
+              accountType === "student" ? "bg-slate-950" : "bg-transparent"
+            }`}
+            type="button"
+            onClick={() => {
+              setAccountType("student");
+            }}>
             Student
           </button>
 
-          <button className="rounded-full bg-slate-950 py-2 px-6" type="button">
+          <button
+            className={`rounded-full py-2 px-6 ${
+              accountType === "instructor" ? "bg-slate-950" : " bg-transparent"
+            }`}
+            type="button"
+            onClick={() => {
+              setAccountType("instructor");
+            }}>
             Instructor
           </button>
         </div>
@@ -117,7 +133,11 @@ const SignupForm = ({ setIsLoggedIn }) => {
             <span
               className="absolute bottom-3 right-3 text-2xl"
               onClick={() => setShowCreatePassword(!showCreatePassword)}>
-              {showCreatePassword ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
+              {showCreatePassword ? (
+                <AiOutlineEyeInvisible />
+              ) : (
+                <AiOutlineEye />
+              )}
             </span>
           </div>
           <div className="flex flex-col gap-3 w-full relative">
@@ -138,7 +158,11 @@ const SignupForm = ({ setIsLoggedIn }) => {
             <span
               className="absolute bottom-3 right-3 text-2xl"
               onClick={() => setShowConfirmPassword(!showConfirmPassword)}>
-              {showConfirmPassword ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
+              {showConfirmPassword ? (
+                <AiOutlineEyeInvisible />
+              ) : (
+                <AiOutlineEye />
+              )}
             </span>
           </div>
         </div>
